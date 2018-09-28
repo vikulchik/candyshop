@@ -1,10 +1,5 @@
 # Личный проект «Кэндишоп» [![Build status][travis-image]][travis-url]
 
-* Студент: [Зули Дышекова](https://up.htmlacademy.ru/javascript/15/user/18012).
-* Наставник: `Без наставника`.
-
----
-
 _Не удаляйте и не обращайте внимание на файлы:_<br>
 _`.editorconfig`, `.eslintrc`, `.gitattributes`, `.gitignore`, `.travis.yml`, `package-lock.json`, `package.json`._
 
