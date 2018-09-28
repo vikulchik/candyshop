@@ -1,7 +1,6 @@
-// Пиши нормальные названия переменных
 'use strict';
 
-var arrName = [
+var names = [
   'Чесночные сливки',
   'Огуречный педант',
   'Молочная хрюша',
@@ -87,40 +86,81 @@ var contentsValue = [
   'виллабаджо',
 ];
 
+var options = {
+  amount: {
+    min: 0,
+    max: 20,
+    cardInStock: 0,
+    cardLittle: 1,
+    cardBig: 5,
+    cardSoon: 0
+  },
+  price: {
+    min: 100,
+    max: 1500
+  },
+  weight: {
+    min: 30,
+    max: 300
+  },
+  rating: {
+    value: {
+      min: 1,
+      max: 5
+    },
+    number: {
+      min: 10,
+      max: 900
+    }
+  },
+  nutritionFacts: {
+    energy: {
+      min: 70,
+      max: 500
+    }
+  },
+  countList: 27,
+  countGoodCard: 3
+};
+
 var catalogCards = document.querySelector('.catalog__cards ');
 var catalogRoad = document.querySelector('.catalog__load');
 var goodCards = document.querySelector('.goods__cards');
 var goodCardsEmpty = document.querySelector('.goods__card-empty');
+var cardOrder = document.querySelector('#card-order').content;
+var card = document.querySelector('#card').content;
 
-var randomNumber = function (min, max) {
+var getRandomNumber = function (min, max) {
   var rand = min + Math.random() * (max - min);
   return Math.round(rand);
 };
 
-var getClassName = function (value, className) {
-  if (value === 1) {
-    className.classList.add('stars__rating--one');
-  }
-  if (value === 2) {
-    className.classList.add('stars__rating--two');
-  }
-  if (value === 3) {
-    className.classList.add('stars__rating--third');
-  }
-  if (value === 4) {
-    className.classList.add('stars__rating--four');
-  }
-  if (value === 5) {
-    className.classList.add('stars__rating--five');
+var setClassName = function (value, className) {
+  switch (value) {
+    case 1:
+      className.classList.add('stars__rating--one');
+      break;
+    case 2:
+      className.classList.add('stars__rating--two');
+      break;
+    case 3:
+      className.classList.add('stars__rating--third');
+      break;
+    case 4:
+      className.classList.add('stars__rating--four');
+      break;
+    case 5:
+      className.classList.add('stars__rating--five');
+      break;
   }
 };
 
-var randomArr = function (arr) {
+var getRandomArr = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
 var getRandomIngredients = function (arr) {
-  var ingredientsLength = randomNumber(0, arr.length);
+  var ingredientsLength = getRandomNumber(0, arr.length);
   var ingredientsText = [];
   for (var i = 0; i < ingredientsLength; i++) {
     ingredientsText.push(arr[i]);
@@ -130,20 +170,20 @@ var getRandomIngredients = function (arr) {
 
 var getGoodList = function () {
   var goodList = [];
-  for (var i = 0; i < 27; i++) { // 27 магическое число - заводи константу сверху
+  for (var i = 0; i < options.countList; i++) {
     var objectList = {
-      name: randomArr(arrName),
-      picture: randomArr(images),
-      amount: randomNumber(0, 20),
-      price: randomNumber(100, 1500),
-      weight: randomNumber(30, 300),
+      name: getRandomArr(names),
+      picture: getRandomArr(images),
+      amount: getRandomNumber(options.amount.min, options.amount.max),
+      price: getRandomNumber(options.price.min, options.price.max),
+      weight: getRandomNumber(options.weight.min, options.weight.max),
       rating: {
-        value: randomNumber(1, 5),
-        number: randomNumber(10, 900),
+        value: getRandomNumber(options.rating.value.min, options.rating.value.max),
+        number: getRandomNumber(options.rating.number.min, options.rating.number.max),
       },
       nutritionFacts: {
         sugar: Math.random() >= 0.5,
-        energy: randomNumber(70, 500),
+        energy: getRandomNumber(options.nutritionFacts.energy.min, options.nutritionFacts.energy.max),
         contents: getRandomIngredients(contentsValue),
       },
     };
@@ -156,7 +196,6 @@ catalogCards.classList.remove('catalog__cards--load');
 catalogRoad.classList.add('visually-hidden');
 
 var getCreateCard = function (content) {
-  var card = document.querySelector('#card').content;
   var catalogCardTemplate = card.querySelector('.catalog__card');
   var cardElement = catalogCardTemplate.cloneNode(true);
   var starsRating = cardElement.querySelector('.stars__rating');
@@ -166,20 +205,20 @@ var getCreateCard = function (content) {
   var cardCharacteristic = cardElement.querySelector('.card__characteristic');
   var cardCompositionList = cardElement.querySelector('.card__composition-list');
 
-  if (content.amount > 5) {
+  if (content.amount > options.amount.cardInStock) {
     catalogCardTemplate.classList.add('card--in-stock');
   }
-  if (content.amount > 1 || content.amount < 5) {
+  if (content.amount >= options.amount.cardLittle || content.amount < options.amount.cardBig) {
     catalogCardTemplate.classList.add('card--little');
   }
-  if (content.amount === 0) {
+  if (content.amount === options.amount.cardSoon) {
     catalogCardTemplate.classList.add('card--soon');
   }
   cardTitle.innerHTML = content.name;
   starCount.innerHTML = content.rating.number;
   cardPrice.innerHTML = content.price + '<span class="card__currency">₽</span><span class="card__weight">/' + content.weight + 'Г</span>';
   starsRating.innerHTML = content.rating.value;
-  getClassName(content.rating.value, starsRating);
+  setClassName(content.rating.value, starsRating);
   if (content.nutritionFacts.sugar) {
     cardCharacteristic.textContent = 'Содержит сахар';
   }
@@ -197,12 +236,10 @@ var renderCard = function (data) {
   for (var i = 0; i < data.length; i++) {
     fragment.appendChild(getCreateCard(data[i]));
   }
-  console.log(fragment);
 };
 
-var getCreateGoodCards = function (content) {
-  var card = document.querySelector('#card-order').content;
-  var catalogGoodCardTemplate = card.querySelector('.goods_card');
+var getGoodCards = function (content) {
+  var catalogGoodCardTemplate = cardOrder.querySelector('.goods_card');
   var goodCardElement = catalogGoodCardTemplate.cloneNode(true);
   var cardTitle = goodCardElement.querySelector('.card-order__title');
   var cardPrice = goodCardElement.querySelector('.card-order__price');
@@ -213,10 +250,9 @@ var getCreateGoodCards = function (content) {
 
 var renderGoodCard = function (data) {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < 3; i++) {
-    fragment.appendChild(getCreateGoodCards(data[i]));
+  for (var i = 0; i < options.countGoodCard; i++) {
+    fragment.appendChild(getGoodCards(data[i]));
   }
-  console.log(fragment);
 };
 
 goodCards.classList.remove('goods__cards--empty');
