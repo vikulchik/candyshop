@@ -238,6 +238,7 @@ var renderCard = function (data) {
   for (var i = 0; i < data.length; i++) {
     fragment.appendChild(getCreateCard(data[i]));
   }
+  catalogCards.appendChild(fragment);
 };
 
 var getGoodCards = function (content) {
@@ -257,6 +258,7 @@ var renderGoodCard = function (data) {
   for (var i = 0; i < options.countGoodCard; i++) {
     fragment.appendChild(getGoodCards(data[i]));
   }
+  goodCards.appendChild(fragment);
 };
 
 goodCards.classList.remove('goods__cards--empty');
