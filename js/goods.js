@@ -232,7 +232,8 @@ var getCreateCard = function (content) {
   return cardElement;
 };
 
-var goodList = getGoodList();
+var goodList = getGoodList(27);
+var goodCardList = getGoodList(3);
 var renderCard = function (data) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < data.length; i++) {
@@ -264,5 +265,5 @@ var renderGoodCard = function (data) {
 goodCards.classList.remove('goods__cards--empty');
 goodCardsEmpty.classList.add('visually-hidden');
 
-renderGoodCard(goodList);
+renderGoodCard(goodCardList);
 renderCard(goodList);
