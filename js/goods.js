@@ -144,7 +144,7 @@ var setClassName = function (value, className) {
       className.classList.add('stars__rating--two');
       break;
     case 3:
-      className.classList.add('stars__rating--third');
+      className.classList.add('stars__rating--three');
       break;
     case 4:
       className.classList.add('stars__rating--four');
