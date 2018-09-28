@@ -32,34 +32,34 @@ var names = [
 ];
 
 var images = [
-  'gum-cedar.jpg',
-  'gum-chile.jpg',
-  'gum-eggplant.jpg',
-  'gum-mustard.jpg',
-  'gum-portwine.jpg',
-  'gum-wasabi.jpg',
-  'ice-cucumber.jpg',
-  'ice-eggplant.jpg',
-  'ice-garlic.jpg',
-  'ice-italian.jpg',
-  'ice-mushroom.jpg',
-  'ice-pig.jpg',
-  'marmalade-beer.jpg',
-  'marmalade-caviar.jpg',
-  'marmalade-corn.jpg',
-  'marmalade-new-year.jpg',
-  'marmalade-sour.jpg',
-  'marshmallow-bacon.jpg',
-  'marshmallow-beer.jpg',
-  'marshmallow-shrimp.jpg',
-  'marshmallow-spicy.jpg',
-  'marshmallow-wine.jpg',
-  'soda-bacon.jpg',
-  'soda-celery.jpg',
-  'soda-cob.jpg',
-  'soda-garlic.jpg',
-  'soda-peanut-grapes.jpg',
-  'soda-russian.jpg',
+  'img/cards/gum-cedar.jpg',
+  'img/cards/gum-chile.jpg',
+  'img/cards/gum-eggplant.jpg',
+  'img/cards/gum-mustard.jpg',
+  'img/cards/gum-portwine.jpg',
+  'img/cards/gum-wasabi.jpg',
+  'img/cards/ice-cucumber.jpg',
+  'img/cards/ice-eggplant.jpg',
+  'img/cards/ice-garlic.jpg',
+  'img/cards/ice-italian.jpg',
+  'img/cards/ice-mushroom.jpg',
+  'img/cards/ice-pig.jpg',
+  'img/cards/marmalade-beer.jpg',
+  'img/cards/marmalade-caviar.jpg',
+  'img/cards/marmalade-corn.jpg',
+  'img/cards/marmalade-new-year.jpg',
+  'img/cards/marmalade-sour.jpg',
+  'img/cards/marshmallow-bacon.jpg',
+  'img/cards/marshmallow-beer.jpg',
+  'img/cards/marshmallow-shrimp.jpg',
+  'img/cards/marshmallow-spicy.jpg',
+  'img/cards/marshmallow-wine.jpg',
+  'img/cards/soda-bacon.jpg',
+  'img/cards/soda-celery.jpg',
+  'img/cards/soda-cob.jpg',
+  'img/cards/soda-garlic.jpg',
+  'img/cards/soda-peanut-grapes.jpg',
+  'img/cards/soda-russian.jpg',
 ];
 
 var contentsValue = [
@@ -201,6 +201,7 @@ var getCreateCard = function (content) {
   var starsRating = cardElement.querySelector('.stars__rating');
   var cardTitle = cardElement.querySelector('.card__title');
   var starCount = cardElement.querySelector('.star__count');
+  var cardImg = cardElement.querySelector('.card__img');
   var cardPrice = cardElement.querySelector('.card__price');
   var cardCharacteristic = cardElement.querySelector('.card__characteristic');
   var cardCompositionList = cardElement.querySelector('.card__composition-list');
@@ -214,6 +215,7 @@ var getCreateCard = function (content) {
   if (content.amount === options.amount.cardSoon) {
     catalogCardTemplate.classList.add('card--soon');
   }
+  cardImg.src = content.picture;
   cardTitle.innerHTML = content.name;
   starCount.innerHTML = content.rating.number;
   cardPrice.innerHTML = content.price + '<span class="card__currency">₽</span><span class="card__weight">/' + content.weight + 'Г</span>';
@@ -243,7 +245,9 @@ var getGoodCards = function (content) {
   var goodCardElement = catalogGoodCardTemplate.cloneNode(true);
   var cardTitle = goodCardElement.querySelector('.card-order__title');
   var cardPrice = goodCardElement.querySelector('.card-order__price');
+  var cardOrderImg = goodCardElement.querySelector('.card-order__img');
   cardTitle.innerHTML = content.name;
+  cardOrderImg.src = content.picture;
   cardPrice.innerHTML = content.price + '₽';
   return goodCardElement;
 };
